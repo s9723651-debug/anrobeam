@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ANRO-BEAM — Send Files Phone to Phone, No Internet Needed</title>
+<meta name="description" content="ANRO-BEAM is a free Android app for sharing files phone-to-phone with a tap, no internet, no cloud, no account. Download the APK directly.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#10243a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ANRO-BEAM — Send Files Phone to Phone, No Internet Needed">
+<meta property="og:description" content="Touch two phones together and send any file, instantly, with no internet connection and no cloud server in between.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ANRO-BEAM — Send Files Phone to Phone">
+<meta name="twitter:description" content="No internet, no cloud, no account. Just tap two phones and send.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310243a'/%3E%3Crect x='7' y='6' width='9' height='20' rx='2.5' fill='%232f6bff'/%3E%3Crect x='16' y='6' width='9' height='20' rx='2.5' fill='%23ff7a59'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #10243a;
+    --ink-2: #17324f;
+    --paper: #eef3f6;
+    --panel: #ffffff;
+    --line: #cdd8e1;
+    --soft: #4a5d70;
+    --beam: #2f6bff;
+    --beam-deep: #1d4fd6;
+    --beam-pale: #e8efff;
+    --spark: #ff7a59;
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 1.0625rem; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; }
+  p { margin: 0; }
+  section { scroll-margin-top: 64px; }
+  :focus-visible { outline: 3px solid var(--spark); outline-offset: 3px; border-radius: 8px; }
+  .wrap { width: min(1120px, 100% - 2.5rem); margin-inline: auto; }
+  .i { width: 1.25em; height: 1.25em; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .skip { position: absolute; left: -999px; top: 0.5rem; background: #fff; color: var(--ink); padding: 0.5rem 1rem; border-radius: 8px; z-index: 100; }
+  .skip:focus { left: 0.5rem; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; font: 600 1rem var(--body); padding: 0.9rem 1.5rem; border-radius: 999px; border: 2px solid transparent; text-decoration: none; cursor: pointer; transition: background 0.15s, transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+  .btn:active { transform: translateY(1px) scale(0.99); }
+  .btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary { background: var(--beam); color: #fff; }
+  .btn-primary:hover { background: var(--beam-deep); }
+  .btn-spark { background: var(--spark); color: var(--ink); box-shadow: 0 10px 30px rgba(255, 122, 89, 0.35); }
+  .btn-spark:hover { background: #ff9377; }
+  .btn-ghost { border-color: rgba(255, 255, 255, 0.3); color: #fff; }
+  .btn-ghost:hover { border-color: #fff; }
+  .btn-line { border-color: var(--line); color: var(--ink); background: transparent; }
+  .btn-line:hover { border-color: var(--ink); }
+  .btn-small { padding: 0.55rem 1.1rem; font-size: 0.95rem; }
+  .btn-lg { padding: 1.1rem 2rem; font-size: 1.15rem; }
+
+  /* Header */
+  header.top { position: fixed; inset: 0 0 auto 0; z-index: 50; background: rgba(16, 36, 58, 0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  header.top .bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 60px; }
+  .brand { font-family: var(--display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.01em; text-decoration: none; color: #fff; }
+  .brand span { color: var(--spark); }
+  nav { display: flex; align-items: center; gap: 1.6rem; font-weight: 500; font-size: 0.97rem; }
+  nav a:not(.btn) { color: #b7c6d6; text-decoration: none; }
+  nav a:not(.btn):hover { color: #fff; }
+
+  /* Hero */
+  .hero { position: relative; background: var(--ink); color: #fff; padding: 7.5rem 0 5rem; overflow: hidden; }
+  #heroFx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .hero-grid { position: relative; display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 2rem; align-items: center; }
+  .hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.7rem, 4.9vw, 4.7rem); line-height: 0.98; letter-spacing: -0.035em; margin: 0 0 1.6rem; }
+  .hero h1 .ln { display: block; overflow: hidden; white-space: nowrap; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+  .hero h1 .ln > span { display: block; animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .hero h1 .ln:nth-child(2) > span { animation-delay: 0.15s; }
+  .hero h1 .ln:nth-child(3) > span { animation-delay: 0.3s; }
+  @keyframes rise { from { transform: translateY(110%); } to { transform: none; } }
+  .lede { max-width: 32rem; color: #b7c6d6; font-size: 1.18rem; margin-bottom: 2rem; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .fine { margin-top: 1.1rem; font-size: 0.93rem; color: #92a5b8; }
+  .fine code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; background: rgba(255, 255, 255, 0.08); padding: 0.1rem 0.45rem; border-radius: 6px; color: #fff; font-size: 0.88rem; }
+
+  .hero-scene { --pw: clamp(170px, 19vw, 240px); position: relative; height: calc(var(--pw) * 2.05 + 90px); perspective: 1400px; touch-action: pan-y; }
+  .halo { position: absolute; left: 50%; top: 50%; border-radius: 50%; border: 1px solid rgba(111, 151, 255, 0.35); animation: halo 5s ease-in-out infinite; }
+  .halo:nth-of-type(1) { width: calc(var(--pw) * 1.9); height: calc(var(--pw) * 1.9); margin: calc(var(--pw) * -0.95) 0 0 calc(var(--pw) * -0.95); }
+  .halo:nth-of-type(2) { width: calc(var(--pw) * 2.7); height: calc(var(--pw) * 2.7); margin: calc(var(--pw) * -1.35) 0 0 calc(var(--pw) * -1.35); animation-delay: 1.2s; }
+  .halo:nth-of-type(3) { width: calc(var(--pw) * 3.6); height: calc(var(--pw) * 3.6); margin: calc(var(--pw) * -1.8) 0 0 calc(var(--pw) * -1.8); animation-delay: 2.4s; }
+  @keyframes halo { 0%, 100% { transform: scale(0.94); opacity: 0.35; } 50% { transform: scale(1.04); opacity: 1; } }
+  .rig { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .floor { position: absolute; left: 50%; top: 50%; width: calc(var(--pw) * 1.5); height: calc(var(--pw) * 1.5); margin: calc(var(--pw) * -0.75) 0 0 calc(var(--pw) * -0.75); background: radial-gradient(closest-side, rgba(0, 0, 0, 0.5), transparent); transform: translateY(calc(var(--pw) * 1.3)) rotateX(90deg); }
+
+  /* 3D phone */
+  .ph { position: absolute; left: 50%; top: 50%; width: var(--pw); height: calc(var(--pw) * 2.05); margin: calc(var(--pw) * -1.025) 0 0 calc(var(--pw) * -0.5); transform-style: preserve-3d; font-size: calc(var(--pw) / 20); }
+  .ph-layers { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .ph-layers i { position: absolute; inset: 0; border-radius: calc(var(--pw) * 0.17); background: #0b1828; border: 1px solid rgba(255, 255, 255, 0.1); }
+  .ph-front, .ph-back { position: absolute; inset: 0; border-radius: calc(var(--pw) * 0.17); background: #0b1828; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .ph-front { padding: calc(var(--pw) * 0.045); transform: translateZ(calc(var(--pw) * 0.05)); }
+  .ph-back { transform: translateZ(calc(var(--pw) * -0.05)) rotateY(180deg); background: linear-gradient(160deg, #1b3a5c, #0b1828 70%); }
+  .ph-cam { position: absolute; top: 1.6em; left: 1.6em; width: 4.2em; height: 4.2em; border-radius: 1.2em; background: #060f1a; border: 0.2em solid #2a4a6d; }
+  .ph-cam::after { content: ""; position: absolute; inset: 1em; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #4b7bd1, #0b1828 70%); }
+  .ph-screen { position: relative; width: 100%; height: 100%; border-radius: calc(var(--pw) * 0.135); background: #f7fafc; overflow: hidden; color: var(--ink); font-family: var(--body); }
+  .ph-notch { position: absolute; top: 0.9em; left: 50%; width: 5em; height: 1.3em; margin-left: -2.5em; border-radius: 1em; background: #0b1828; z-index: 4; }
+  .ph-glare { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 5; background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.4) 46%, transparent 60%); background-size: 260% 100%; background-position: var(--gx, 50%) 0; }
+  .scr-status { display: flex; justify-content: space-between; padding: 2.6em 1.6em 0; font-size: 0.95em; font-weight: 600; color: var(--soft); }
+  .scr-h { padding: 1.1em 1.6em 0.4em; font-family: var(--display); font-weight: 800; font-size: 1.7em; letter-spacing: -0.02em; }
+  .radar { position: relative; width: 13em; height: 13em; margin: 1.8em auto 0; }
+  .radar i { position: absolute; inset: 0; border-radius: 50%; border: 0.2em solid var(--beam); opacity: 0; animation: ping 3s ease-out infinite; }
+  .radar i:nth-child(2) { animation-delay: 1s; }
+  .radar i:nth-child(3) { animation-delay: 2s; }
+  .radar b { position: absolute; inset: 4.1em; border-radius: 50%; background: var(--beam); display: grid; place-items: center; color: #fff; box-shadow: 0 0.6em 1.6em rgba(47, 107, 255, 0.45); }
+  .radar b .i { width: 2.8em; height: 2.8em; }
+  @keyframes ping { 0% { transform: scale(0.35); opacity: 0.85; } 100% { transform: scale(1); opacity: 0; } }
+  .scr-msg { text-align: center; font-weight: 600; font-size: 1.15em; margin-top: 1.6em; padding: 0 1em; }
+  .scr-file { position: absolute; left: 1.2em; right: 1.2em; bottom: 1.4em; display: flex; align-items: center; gap: 0.8em; padding: 0.9em; background: #fff; border: 0.1em solid var(--line); border-radius: 1.2em; }
+  .scr-file .ico { width: 2.6em; height: 2.6em; border-radius: 0.8em; background: var(--beam-pale); color: var(--beam); display: grid; place-items: center; flex: none; }
+  .scr-file strong { display: block; font-size: 0.98em; line-height: 1.2; }
+  .scr-file small { font-size: 0.85em; color: var(--soft); }
+
+  .orb { position: absolute; left: 50%; top: 50%; width: calc(var(--pw) * 0.36); height: calc(var(--pw) * 0.36); margin: calc(var(--pw) * -0.18) 0 0 calc(var(--pw) * -0.18); transform: translate3d(var(--x), var(--y), var(--z)); }
+  .orb-in { width: 100%; height: 100%; border-radius: calc(var(--pw) * 0.09); background: #fff; color: var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2em; font-size: calc(var(--pw) * 0.05); font-weight: 600; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35); animation: bob 5s ease-in-out infinite; animation-delay: var(--d); }
+  .orb-in .i { width: 2.6em; height: 2.6em; }
+  .orb-in.coral { background: var(--spark); }
+  .orb-in.blue { background: var(--beam); color: #fff; }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+  /* Try it */
+  .try { padding: 5.5rem 0; }
+  .try-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 3rem; align-items: center; }
+  h2 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 4.2vw, 3rem); line-height: 1.03; letter-spacing: -0.025em; margin: 0 0 0.9rem; }
+  h3 { font-family: var(--display); font-weight: 700; font-size: 1.3rem; margin: 0 0 0.4rem; letter-spacing: -0.01em; }
+  .section-intro { color: var(--soft); max-width: 36rem; margin-bottom: 1.8rem; }
+  fieldset { border: 0; padding: 0; margin: 0 0 1.4rem; min-width: 0; }
+  legend, .lab { font-weight: 600; font-size: 0.98rem; padding: 0; margin-bottom: 0.6rem; display: block; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.95rem; border-radius: 999px; border: 2px solid var(--line); background: #fff; font: 600 0.95rem var(--body); color: var(--ink); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .chip:hover { border-color: var(--beam); }
+  .chip[aria-pressed="true"] { border-color: var(--beam); background: var(--beam-pale); color: var(--beam-deep); }
+  .chip[disabled] { opacity: 0.45; cursor: not-allowed; }
+  input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; cursor: grab; --fill: 0%; margin: 0; }
+  input[type="range"]:active { cursor: grabbing; }
+  input[type="range"]::-webkit-slider-runnable-track { height: 12px; border-radius: 99px; background: linear-gradient(90deg, var(--beam) var(--fill), #c5d3de var(--fill)); }
+  input[type="range"]::-moz-range-track { height: 12px; border-radius: 99px; background: #c5d3de; }
+  input[type="range"]::-moz-range-progress { height: 12px; border-radius: 99px; background: var(--beam); }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 40px; height: 40px; margin-top: -14px; border-radius: 50%; background: var(--spark); border: 4px solid #fff; box-shadow: 0 4px 14px rgba(16, 36, 58, 0.35); }
+  input[type="range"]::-moz-range-thumb { width: 32px; height: 32px; border-radius: 50%; background: var(--spark); border: 4px solid #fff; box-shadow: 0 4px 14px rgba(16, 36, 58, 0.35); }
+  input[type="range"][disabled] { opacity: 0.5; cursor: not-allowed; }
+  .btn-row { display: flex; gap: 0.7rem; flex-wrap: wrap; margin: 0.6rem 0 1.2rem; }
+  .status { min-height: 3.2em; font-weight: 500; }
+  .readouts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin: 1rem 0 0; }
+  .readouts div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 0.7rem 0.9rem; }
+  .readouts dt { font-size: 0.85rem; color: var(--soft); }
+  .readouts dd { margin: 0; font-family: var(--display); font-weight: 700; font-size: 1.15rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  .stage { --pw: 168px; position: relative; height: calc(var(--pw) * 2.05 + 80px); perspective: 1300px; border-radius: 30px; background-color: #dbe6ee; background-image: radial-gradient(rgba(16, 36, 58, 0.16) 1.2px, transparent 1.2px); background-size: 22px 22px; overflow: hidden; touch-action: pan-y; cursor: ew-resize; user-select: none; -webkit-user-select: none; box-shadow: inset 0 0 0 1px rgba(16, 36, 58, 0.06); }
+  .stage.grabbing { cursor: grabbing; }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+  .drag-hint, .sim-note { position: absolute; left: 50%; transform: translateX(-50%); z-index: 6; white-space: nowrap; font-size: 0.85rem; }
+  .drag-hint { top: 14px; background: var(--ink); color: #fff; padding: 0.4rem 0.9rem; border-radius: 999px; font-weight: 600; transition: opacity 0.3s; }
+  .drag-hint.gone { opacity: 0; }
+  .sim-note { bottom: 10px; color: var(--soft); }
+  .seam { position: absolute; left: 50%; top: 50%; width: 4px; height: calc(var(--pw) * 2.05); margin: calc(var(--pw) * -1.025) 0 0 -2px; background: linear-gradient(transparent, var(--spark), transparent); filter: blur(1.5px); opacity: 0; transform: translateZ(10px); }
+  .seam.on { opacity: 1; animation: seam 0.4s ease-in-out infinite alternate; }
+  @keyframes seam { from { transform: translateZ(10px) scaleX(1); } to { transform: translateZ(10px) scaleX(3); } }
+  .ring { position: absolute; left: 50%; top: 50%; width: calc(var(--pw) * 0.5); height: calc(var(--pw) * 0.5); margin: calc(var(--pw) * -0.25) 0 0 calc(var(--pw) * -0.25); border-radius: 50%; border: 3px solid var(--spark); pointer-events: none; animation: ringOut 1s ease-out forwards; }
+  .ring.flat { top: calc(50% + var(--pw) * 1.0); border-color: var(--beam); animation-name: ringFlat; animation-duration: 1.3s; }
+  @keyframes ringOut { from { transform: translateZ(20px) scale(0.2); opacity: 1; } to { transform: translateZ(20px) scale(3.8); opacity: 0; } }
+  @keyframes ringFlat { from { transform: rotateX(78deg) scale(0.2); opacity: 1; } to { transform: rotateX(78deg) scale(5); opacity: 0; } }
+
+  .fl-list { list-style: none; margin: 0; padding: 0 1.2em; display: grid; gap: 0.6em; }
+  .fl-list li { display: flex; align-items: center; gap: 0.7em; padding: 0.7em; border-radius: 1em; border: 0.1em solid var(--line); background: #fff; font-size: 0.95em; position: relative; }
+  .fl-list li .ico { width: 2.3em; height: 2.3em; border-radius: 0.7em; background: var(--paper); display: grid; place-items: center; flex: none; }
+  .fl-list li .ico .i { width: 1.3em; height: 1.3em; }
+  .fl-list li strong { display: block; line-height: 1.15; font-size: 0.92em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 9em; }
+  .fl-list li small { color: var(--soft); font-size: 0.82em; }
+  .fl-list li.sel { border-color: var(--beam); background: var(--beam-pale); }
+  .fl-list li.sel .ico { background: var(--beam); color: #fff; }
+  .a-tag { position: absolute; right: 0.6em; font-size: 0.8em; font-weight: 700; color: var(--beam-deep); display: none; }
+  [data-state="sending"] .sel .a-tag, [data-state="done"] .sel .a-tag { display: block; }
+  [data-state="sending"] .sel .a-tag::before { content: "Sending"; animation: blink 0.7s infinite alternate; }
+  [data-state="done"] .sel .a-tag::before { content: "Sent"; }
+  @keyframes blink { from { opacity: 0.35; } to { opacity: 1; } }
+  .scr-hint { position: absolute; left: 1.2em; right: 1.2em; bottom: 1.4em; text-align: center; font-size: 0.9em; color: var(--soft); font-weight: 500; }
+
+  .b-panel { display: none; position: absolute; inset: 0; padding-top: 7em; text-align: center; }
+  [data-state="idle"] .b-idle, [data-state="recv"] .b-recv, [data-state="done"] .b-done { display: block; }
+  .b-idle .radar { width: 10em; height: 10em; margin-top: 1em; }
+  .b-idle .radar b { inset: 3.2em; }
+  .b-idle .radar b .i { width: 2em; height: 2em; }
+  .b-panel p { font-weight: 600; font-size: 1.05em; padding: 0 1em; }
+  .b-panel small { display: block; color: var(--soft); font-size: 0.9em; font-weight: 500; }
+  .b-ring { position: relative; width: 11em; height: 11em; margin: 0.6em auto 1.4em; }
+  .b-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .b-ring circle { fill: none; stroke-width: 8; }
+  .b-ring .bg { stroke: var(--line); }
+  .b-ring .fg { stroke: var(--beam); stroke-linecap: round; stroke-dasharray: 264; stroke-dashoffset: 264; }
+  .b-ring span { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 2.2em; font-variant-numeric: tabular-nums; }
+  .b-check { width: 8em; height: 8em; margin: 0.8em auto 1.4em; border-radius: 50%; background: #16b364; color: #fff; display: grid; place-items: center; }
+  .b-check .i { width: 4em; height: 4em; stroke-width: 2.4; }
+  [data-state="done"] .b-check { animation: pop 0.5s cubic-bezier(0.2, 1.6, 0.4, 1); }
+  @keyframes pop { from { transform: scale(0.2); } to { transform: scale(1); } }
+
+  /* Steps */
+  .how { background: #fff; border-block: 1px solid var(--line); padding: 5.5rem 0; }
+  .steps { list-style: none; margin: 2.6rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; perspective: 1000px; }
+  .card { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: 26px; padding: 2rem 1.7rem 2.1rem; transform-style: preserve-3d; transition: transform 0.2s ease-out; --mx: 50%; --my: 50%; }
+  .card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(240px circle at var(--mx) var(--my), rgba(47, 107, 255, 0.14), transparent 70%); opacity: 0; transition: opacity 0.2s; }
+  .card:hover::before { opacity: 1; }
+  .card .num { display: block; font-family: var(--display); font-weight: 800; font-size: 5.5rem; line-height: 0.9; color: var(--beam); transform: translateZ(50px); margin-bottom: 1rem; }
+  .card h3, .card p { transform: translateZ(24px); }
+  .card p { color: var(--soft); }
+
+  /* Features */
+  .feat { padding: 5.5rem 0; }
+  .tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2.6rem; perspective: 1000px; }
+  .tile { background: #fff; display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: start; }
+  .tile .badge { width: 56px; height: 56px; border-radius: 18px; background: var(--ink); color: #fff; display: grid; place-items: center; transform: translateZ(40px); }
+  .tile .badge .i { width: 28px; height: 28px; }
+  .tile:nth-child(2) .badge { background: var(--beam); }
+  .tile:nth-child(3) .badge { background: var(--spark); color: var(--ink); }
+  .tile:nth-child(4) .badge { background: var(--ink-2); }
+  .tile p { color: var(--soft); }
+
+  /* Download */
+  .dl { padding: 0 0 5.5rem; }
+  .dl-box { background: var(--ink); color: #fff; border-radius: 32px; padding: clamp(1.8rem, 5vw, 3.6rem); display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; position: relative; overflow: hidden; }
+  .dl-box h2 { color: #fff; }
+  .dl-box .section-intro { color: #b7c6d6; }
+  .spec { margin: 0 0 1.8rem; display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1.4rem; }
+  .spec dt { color: #92a5b8; }
+  .spec dd { margin: 0; font-weight: 600; word-break: break-word; }
+  .warn { margin-top: 1rem; background: rgba(255, 122, 89, 0.15); border: 1px solid var(--spark); border-radius: 12px; padding: 0.7rem 1rem; font-size: 0.95rem; }
+  .dl-help h3 { margin-bottom: 0.9rem; }
+  details { border-top: 1px solid rgba(255, 255, 255, 0.15); padding: 0.9rem 0; }
+  details:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.15); }
+  summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 1.4rem; line-height: 1; color: var(--spark); transition: transform 0.2s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { color: #b7c6d6; margin-top: 0.6rem; font-size: 0.98rem; }
+
+  footer { padding: 0 0 3rem; color: var(--soft); font-size: 0.95rem; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--line); padding-top: 1.6rem; }
+  footer strong { font-family: var(--display); color: var(--ink); }
+
+  @media (max-width: 900px) {
+    .hero { padding-top: 6.5rem; }
+    .hero-grid, .try-grid, .dl-box { grid-template-columns: 1fr; }
+    .hero-scene { --pw: 170px; margin-top: 1rem; }
+    .steps, .tiles { grid-template-columns: 1fr; }
+    nav a:not(.btn) { display: none; }
+    .stage { order: -1; }
+  }
+  @media (max-width: 480px) {
+    .readouts dd { font-size: 0.98rem; }
+    .readouts div { padding: 0.6rem 0.65rem; }
+    .card .num { font-size: 4.2rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .hero h1 .ln > span, .orb-in, .halo, .radar i, .seam.on { animation: none; }
+    .radar i:first-child { opacity: 0.5; transform: scale(0.8); }
+    .card { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/></symbol>
+    <symbol id="i-pdf" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-apk" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 20h14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-offline" viewBox="0 0 24 24"><path d="M3 9a14 14 0 0118 0M6 12.5a9.5 9.5 0 0112 0M9 16a5 5 0 016 0"/><path d="M4 4l16 16"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="2.5"/><circle cx="18.5" cy="12" r="2.5"/><path d="M8 12h8"/></symbol>
+    <symbol id="i-files" viewBox="0 0 24 24"><rect x="4" y="4" width="11" height="14" rx="2"/><path d="M9 20h9a2 2 0 002-2V8"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></symbol>
+    <symbol id="i-beam" viewBox="0 0 24 24"><rect x="3" y="5" width="7" height="14" rx="2"/><rect x="14" y="5" width="7" height="14" rx="2"/><path d="M11 12h2"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#try">Skip to the demo</a>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#hero" aria-label="ANRO-BEAM home">ANRO<span>-</span>BEAM</a>
+    <nav aria-label="Main">
+      <a href="#try">Try it</a>
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a class="btn btn-spark btn-small" href="#download">Get the app</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <canvas id="heroFx" aria-hidden="true"></canvas>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>
+          <span class="ln"><span>Touch phones.</span></span>
+          <span class="ln"><span>Send the file.</span></span>
+          <span class="ln"><span>Nothing else.</span></span>
+        </h1>
+        <p class="lede">ANRO-BEAM moves files the way Android Beam once did. Hold two phones back to back and the transfer starts. No sign-up, no upload, no waiting on a server that isn't yours.</p>
+        <div class="cta-row">
+          <a class="btn btn-spark magnet" href="app-debug.apk" download="app-debug.apk"><svg class="i"><use href="#i-download"/></svg>Download for Android</a>
+          <a class="btn btn-ghost" href="#try">Try the 3D demo</a>
+        </div>
+        <p class="fine">Free, no account. File: <code>app-debug.apk</code></p>
+      </div>
+
+      <div class="hero-scene" id="heroScene" aria-hidden="true">
+        <span class="halo"></span><span class="halo"></span><span class="halo"></span>
+        <div class="rig" id="heroRig">
+          <div class="floor"></div>
+
+          <div class="ph" id="heroPh">
+            <div class="ph-layers"></div>
+            <div class="ph-front">
+              <div class="ph-screen">
+                <span class="ph-notch"></span>
+                <div class="scr-status"><span>9:41</span><span>Ready</span></div>
+                <div class="scr-h">ANRO-BEAM</div>
+                <div class="radar"><i></i><i></i><i></i><b><svg class="i"><use href="#i-beam"/></svg></b></div>
+                <p class="scr-msg">Listening for a nearby phone</p>
+                <div class="scr-file">
+                  <span class="ico"><svg class="i"><use href="#i-folder"/></svg></span>
+                  <div><strong>vacation_photos</strong><small>128 MB, ready to beam</small></div>
+                </div>
+                <span class="ph-glare"></span>
+              </div>
+            </div>
+            <div class="ph-back"><span class="ph-cam"></span></div>
+          </div>
+
+          <div class="orb" style="--x: calc(var(--pw) * -0.95); --y: calc(var(--pw) * -0.75); --z: calc(var(--pw) * 0.5); --d: 0s"><div class="orb-in coral"><svg class="i"><use href="#i-photo"/></svg>Photo</div></div>
+          <div class="orb" style="--x: calc(var(--pw) * 0.95); --y: calc(var(--pw) * -0.95); --z: calc(var(--pw) * 0.2); --d: 1.3s"><div class="orb-in"><svg class="i"><use href="#i-pdf"/></svg>PDF</div></div>
+          <div class="orb" style="--x: calc(var(--pw) * -1.0); --y: calc(var(--pw) * 0.55); --z: calc(var(--pw) * 0.85); --d: 2.4s"><div class="orb-in blue"><svg class="i"><use href="#i-apk"/></svg>APK</div></div>
+          <div class="orb" style="--x: calc(var(--pw) * 0.98); --y: calc(var(--pw) * 0.7); --z: calc(var(--pw) * 0.6); --d: 0.7s"><div class="orb-in"><svg class="i"><use href="#i-folder"/></svg>Folder</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE DEMO -->
+  <section class="try" id="try">
+    <div class="wrap try-grid">
+      <div class="try-copy">
+        <h2>Try a beam right here.</h2>
+        <p class="section-intro">Pick a file, then drag the phones together or press the button. It's a simulation, but the steps match the real app.</p>
+
+        <fieldset>
+          <legend>1. Pick a file to send</legend>
+          <div class="chips" id="chips"></div>
+        </fieldset>
+
+        <div>
+          <label class="lab" for="slider">2. Bring the phones together</label>
+          <input type="range" id="slider" min="0" max="100" step="1" value="0">
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="goBtn" type="button"><svg class="i"><use href="#i-beam"/></svg>Touch the phones</button>
+          <button class="btn btn-line" id="resetBtn" type="button" hidden>Send another file</button>
+        </div>
+
+        <p class="status" id="status" role="status" aria-live="polite">Drag the slider, or drag the phones themselves, until they touch.</p>
+
+        <dl class="readouts">
+          <div><dt>Time</dt><dd id="rTime">0.0 s</dd></div>
+          <div><dt>Sent</dt><dd id="rSent">0 MB</dd></div>
+          <div><dt>Servers used</dt><dd>0</dd></div>
+        </dl>
+      </div>
+
+      <div class="stage" id="stage">
+        <span class="drag-hint" id="dragHint">Drag the phones together</span>
+        <div class="rig" id="demoRig">
+          <div class="ph" id="phA">
+            <div class="ph-layers"></div>
+            <div class="ph-front">
+              <div class="ph-screen" id="scrA" data-state="idle">
+                <span class="ph-notch"></span>
+                <div class="scr-status"><span>9:41</span><span>Sender</span></div>
+                <div class="scr-h">Your files</div>
+                <ul class="fl-list" id="fileList"></ul>
+                <div class="scr-hint">Touch another phone to send</div>
+              </div>
+            </div>
+            <div class="ph-back"><span class="ph-cam"></span></div>
+          </div>
+
+          <div class="ph" id="phB">
+            <div class="ph-layers"></div>
+            <div class="ph-front">
+              <div class="ph-screen" id="scrB" data-state="idle">
+                <span class="ph-notch"></span>
+                <div class="scr-status"><span>9:41</span><span>Receiver</span></div>
+                <div class="b-panel b-idle">
+                  <div class="radar"><i></i><i></i><i></i><b><svg class="i"><use href="#i-beam"/></svg></b></div>
+                  <p style="margin-top:1.4em">Listening for a nearby phone</p>
+                </div>
+                <div class="b-panel b-recv">
+                  <div class="b-ring"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" id="ringFg" cx="50" cy="50" r="42"/></svg><span id="ringTxt">0%</span></div>
+                  <p id="recvName">Receiving…</p>
+                  <small>Direct from the other phone</small>
+                </div>
+                <div class="b-panel b-done">
+                  <div class="b-check"><svg class="i"><use href="#i-check"/></svg></div>
+                  <p id="doneName">Received</p>
+                  <small>Saved to Downloads</small>
+                </div>
+              </div>
+            </div>
+            <div class="ph-back"><span class="ph-cam"></span></div>
+          </div>
+          <div class="seam" id="seam"></div>
+        </div>
+        <canvas id="demoFx" aria-hidden="true"></canvas>
+        <span class="sim-note">Simulation. Real speeds depend on your phones.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section class="how" id="how">
+    <div class="wrap">
+      <h2>Three steps. About four seconds.</h2>
+      <p class="section-intro" style="margin-bottom:0">No pairing screens, no network setup. The whole exchange happens in the time it takes to bump two phones together.</p>
+      <ol class="steps">
+        <li class="card" data-tilt>
+          <span class="num" aria-hidden="true">1</span>
+          <h3>Open the file</h3>
+          <p>Pick anything: a photo, a PDF, an APK, a whole folder. ANRO-BEAM reads it straight from your file system.</p>
+        </li>
+        <li class="card" data-tilt>
+          <span class="num" aria-hidden="true">2</span>
+          <h3>Touch the phones</h3>
+          <p>Hold the two devices back to back. ANRO-BEAM detects proximity and opens a direct link between them.</p>
+        </li>
+        <li class="card" data-tilt>
+          <span class="num" aria-hidden="true">3</span>
+          <h3>Confirm and beam</h3>
+          <p>Tap once to send. The file moves phone to phone, never through a server, and lands ready to open.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="feat" id="features">
+    <div class="wrap">
+      <h2>Everything stays between the two of you.</h2>
+      <p class="section-intro" style="margin-bottom:0">Built for the moment you just want to hand someone a file, the way you'd hand them a photo print.</p>
+      <div class="tiles">
+        <div class="card tile" data-tilt>
+          <span class="badge"><svg class="i"><use href="#i-offline"/></svg></span>
+          <div><h3>Works offline</h3><p>No Wi-Fi, no mobile data, no router. ANRO-BEAM talks phone to phone directly.</p></div>
+        </div>
+        <div class="card tile" data-tilt>
+          <span class="badge"><svg class="i"><use href="#i-files"/></svg></span>
+          <div><h3>Any file type</h3><p>Photos, video, documents, APKs, whole folders. If it's on the phone, it can be beamed.</p></div>
+        </div>
+        <div class="card tile" data-tilt>
+          <span class="badge"><svg class="i"><use href="#i-link"/></svg></span>
+          <div><h3>Point-to-point only</h3><p>Files travel directly between the two devices. Nothing is copied to a server in between.</p></div>
+        </div>
+        <div class="card tile" data-tilt>
+          <span class="badge"><svg class="i"><use href="#i-bolt"/></svg></span>
+          <div><h3>No account, no wait</h3><p>There's no sign-up screen and no queue. Open the app and it's already listening.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section class="dl" id="download">
+    <div class="wrap">
+      <div class="dl-box">
+        <div>
+          <h2>Install ANRO-BEAM</h2>
+          <p class="section-intro">Download the APK directly. No store account needed. Android will ask you to confirm installing from outside the Play Store the first time.</p>
+          <dl class="spec">
+            <dt>File</dt><dd>app-debug.apk</dd>
+            <dt>Size</dt><dd id="apkSize">Android package</dd>
+            <dt>Platform</dt><dd>Android</dd>
+            <dt>Build</dt><dd>Debug</dd>
+          </dl>
+          <a class="btn btn-spark btn-lg magnet" id="dlBtn" href="app-debug.apk" download="app-debug.apk"><svg class="i"><use href="#i-download"/></svg>Download APK</a>
+          <p class="warn" id="dlWarn" hidden>This download isn't available right now. Please try again later.</p>
+        </div>
+        <div class="dl-help">
+          <h3>First-time install</h3>
+          <details open>
+            <summary>Allow installs from this browser</summary>
+            <p>When Android blocks the install, tap Settings, then turn on "Allow from this source" for the browser you used. This is standard for apps installed outside the Play Store.</p>
+          </details>
+          <details>
+            <summary>Open the downloaded file</summary>
+            <p>Go back and open app-debug.apk from your browser's downloads or the Files app, then tap Install.</p>
+          </details>
+          <details>
+            <summary>If Play Protect shows a warning</summary>
+            <p>Debug builds aren't published on Google Play, so Play Protect may ask you to confirm. Tap More details, then Install anyway, if you trust the source.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>ANRO-BEAM</strong>
+    <span>Phone to phone. Nothing in between.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  /* Give every phone real thickness by stacking layers */
+  $$('.ph-layers').forEach(function (el) {
+    var h = '';
+    for (var k = 0; k < 9; k++) {
+      h += '<i style="transform: translateZ(calc(var(--pw) * ' + ((k - 4) * 0.0125).toFixed(4) + '))"></i>';
+    }
+    el.innerHTML = h;
+  });
+
+  function fitCanvas(c) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = c.clientWidth, h = c.clientHeight;
+    c.width = Math.max(1, Math.round(w * dpr));
+    c.height = Math.max(1, Math.round(h * dpr));
+    var ctx = c.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return ctx;
+  }
+
+  /* ---------- HERO ---------- */
+  var heroEl = $('#hero'), heroRig = $('#heroRig'), heroPh = $('#heroPh'), heroCanvas = $('#heroFx');
+  var hctx = fitCanvas(heroCanvas), dots = [];
+  function makeDots() {
+    dots = [];
+    var n = Math.round(heroCanvas.clientWidth / 24);
+    for (var i = 0; i < n; i++) {
+      dots.push({ x: Math.random() * heroCanvas.clientWidth, y: Math.random() * heroCanvas.clientHeight, v: rnd(0.08, 0.35), r: rnd(0.8, 2.4), a: rnd(0.15, 0.5) });
+    }
+  }
+  makeDots();
+  var tx = 0, ty = 0, cx = 0, cy = 0, heroOn = true, t0 = null;
+  heroEl.addEventListener('pointermove', function (e) {
+    var r = heroEl.getBoundingClientRect();
+    tx = clamp(((e.clientX - r.left) / r.width - 0.5) * 2, -1, 1);
+    ty = clamp(((e.clientY - r.top) / r.height - 0.5) * 2, -1, 1);
+  });
+  heroEl.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
+
+  function heroFrame(t) {
+    if (t0 === null) t0 = t;
+    cx = lerp(cx, tx, 0.07); cy = lerp(cy, ty, 0.07);
+    var intro = reduce ? 1 : ease(clamp((t - t0) / 1700, 0, 1));
+    var sway = reduce ? 0 : Math.sin(t / 2200) * 4;
+    var bob = reduce ? 0 : Math.sin(t / 1700) * 6;
+    var ry = -16 + cx * 18 + sway - (1 - intro) * 75;
+    var rx = 6 - cy * 9;
+    heroRig.style.transform = 'translateY(' + bob.toFixed(2) + 'px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+    heroPh.style.setProperty('--gx', (50 - cx * 45).toFixed(1) + '%');
+
+    if (!reduce) {
+      var w = heroCanvas.clientWidth, h = heroCanvas.clientHeight;
+      hctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < dots.length; i++) {
+        var d = dots[i];
+        d.y -= d.v; d.x += Math.sin((t / 1500) + i) * 0.15;
+        if (d.y < -4) { d.y = h + 4; d.x = Math.random() * w; }
+        hctx.globalAlpha = d.a;
+        hctx.fillStyle = i % 5 === 0 ? '#ff7a59' : '#8fb0ff';
+        hctx.beginPath(); hctx.arc(d.x, d.y, d.r, 0, 6.2832); hctx.fill();
+      }
+      hctx.globalAlpha = 1;
+    }
+  }
+
+  /* ---------- DEMO ---------- */
+  var FILES = [
+    { name: 'beach_sunset.jpg',  label: 'Photo',  size: '4.2 MB', mb: 4.2, icon: 'photo' },
+    { name: 'boarding_pass.pdf', label: 'PDF',    size: '1.1 MB', mb: 1.1, icon: 'pdf' },
+    { name: 'level_pack.apk',    label: 'APK',    size: '38 MB',  mb: 38,  icon: 'apk' },
+    { name: 'vacation_photos',   label: 'Folder', size: '128 MB', mb: 128, icon: 'folder' }
+  ];
+  function icon(id) { return '<svg class="i" aria-hidden="true"><use href="#i-' + id + '"/></svg>'; }
+
+  var stage = $('#stage'), demoRig = $('#demoRig'), phA = $('#phA'), phB = $('#phB');
+  var scrA = $('#scrA'), scrB = $('#scrB'), seam = $('#seam'), dcanvas = $('#demoFx');
+  var slider = $('#slider'), goBtn = $('#goBtn'), resetBtn = $('#resetBtn'), statusEl = $('#status');
+  var chipsEl = $('#chips'), listEl = $('#fileList'), dragHint = $('#dragHint');
+  var rTime = $('#rTime'), rSent = $('#rSent'), ringFg = $('#ringFg'), ringTxt = $('#ringTxt');
+  var recvName = $('#recvName'), doneName = $('#doneName');
+  var dctx, pw = 168, maxGap = 60, demoOn = false, touched = false;
+  var st = { v: 0, state: 'idle', file: FILES[0] };
+  var tr = { start: 0, dur: 2000 };
+  var vAnim = null, parts = [], spawnAcc = 0;
+  var dtx = 0, dty = 0, dcx = 0, dcy = 0;
+
+  var IDLE_MSG = 'Drag the slider, or drag the phones themselves, until they touch.';
+
+  function buildUI() {
+    chipsEl.innerHTML = '';
+    FILES.forEach(function (f, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+      b.innerHTML = icon(f.icon) + f.label;
+      b.addEventListener('click', function () { selectFile(i); });
+      chipsEl.appendChild(b);
+    });
+    listEl.innerHTML = '';
+    FILES.forEach(function (f, i) {
+      var li = document.createElement('li');
+      if (i === 0) li.className = 'sel';
+      li.innerHTML = '<span class="ico">' + icon(f.icon) + '</span><span><strong>' + f.name + '</strong><small>' + f.size + '</small></span><span class="a-tag"></span>';
+      listEl.appendChild(li);
+    });
+    rSent.textContent = '0 / ' + FILES[0].size;
+  }
+  buildUI();
+
+  function selectFile(i) {
+    if (st.state === 'linking' || st.state === 'sending' || st.state === 'resetting') return;
+    if (st.state === 'done') { resetDemo(function () { selectFile(i); }); return; }
+    st.file = FILES[i];
+    $$('.chip', chipsEl).forEach(function (c, k) { c.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    $$('li', listEl).forEach(function (li, k) { li.className = k === i ? 'sel' : ''; });
+    rSent.textContent = '0 / ' + st.file.size;
+  }
+
+  function syncUI() {
+    var busy = st.state === 'linking' || st.state === 'sending' || st.state === 'resetting';
+    slider.disabled = busy || st.state === 'done';
+    goBtn.disabled = busy;
+    goBtn.hidden = st.state === 'done';
+    resetBtn.hidden = st.state !== 'done';
+    $$('.chip', chipsEl).forEach(function (c) { c.disabled = busy; });
+  }
+  function setStatus(s) { statusEl.textContent = s; }
+  function setV(v) { st.v = v; slider.value = v; slider.style.setProperty('--fill', v + '%'); }
+  function animateV(to, ms, cb) { vAnim = { from: st.v, to: to, ms: Math.max(1, ms), t0: performance.now(), cb: cb }; }
+  function userTouched() {
+    if (!touched) { touched = true; dragHint.classList.add('gone'); }
+    if (vAnim && st.state === 'idle') vAnim = null;
+  }
+
+  function layoutDemo() {
+    var w = stage.clientWidth;
+    pw = clamp(Math.round(w * 0.29), 108, 168);
+    stage.style.setProperty('--pw', pw + 'px');
+    maxGap = Math.max(20, w / 2 - pw * 1.12 - 18);
+    dctx = fitCanvas(dcanvas);
+  }
+  layoutDemo();
+  if (window.ResizeObserver) new ResizeObserver(layoutDemo).observe(stage);
+  window.addEventListener('resize', function () {
+    layoutDemo();
+    hctx = fitCanvas(heroCanvas);
+    makeDots();
+  });
+
+  function applyPhones() {
+    var p = 1 - st.v / 100;
+    var th = 8 + 12 * (1 - p);
+    var off = (pw / 2) * Math.cos(th * Math.PI / 180) + 2 + p * maxGap;
+    phA.style.transform = 'translate3d(' + (-off).toFixed(2) + 'px,0,0) rotateY(' + th.toFixed(2) + 'deg)';
+    phB.style.transform = 'translate3d(' + off.toFixed(2) + 'px,0,0) rotateY(' + (-th).toFixed(2) + 'deg)';
+  }
+
+  function ringFx() {
+    var a = document.createElement('div'); a.className = 'ring';
+    var b = document.createElement('div'); b.className = 'ring flat';
+    [a, b].forEach(function (r) { demoRig.appendChild(r); r.addEventListener('animationend', function () { r.remove(); }); });
+  }
+
+  function screenCenter(el, sr) {
+    var r = el.getBoundingClientRect();
+    return { x: r.left + r.width / 2 - sr.left, y: r.top + r.height / 2 - sr.top, w: r.width, h: r.height };
+  }
+  function spawnStream(now) {
+    var sr = stage.getBoundingClientRect(), a = screenCenter(scrA, sr), b = screenCenter(scrB, sr);
+    parts.push({ k: 's', t: now, dur: rnd(450, 850),
+      sx: a.x + rnd(-0.25, 0.25) * a.w, sy: a.y + rnd(-0.3, 0.3) * a.h,
+      ex: b.x + rnd(-0.2, 0.2) * b.w, ey: b.y + rnd(-0.3, 0.3) * b.h,
+      arc: rnd(20, 70), r: rnd(2, 4.5), c: Math.random() < 0.5 ? '#2f6bff' : '#ff7a59' });
+  }
+  function burst(now) {
+    var sr = stage.getBoundingClientRect(), b = screenCenter(scrB, sr);
+    var cols = ['#2f6bff', '#ff7a59', '#10243a', '#ffffff', '#16b364'];
+    for (var i = 0; i < 46; i++) {
+      var ang = rnd(0, 6.2832), sp = rnd(60, 190);
+      parts.push({ k: 'b', t: now, dur: rnd(700, 1200), x: b.x, y: b.y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - 60, r: rnd(2.5, 5), c: cols[i % cols.length] });
+    }
+  }
+  function drawParts(now) {
+    var w = dcanvas.clientWidth, h = dcanvas.clientHeight;
+    dctx.clearRect(0, 0, w, h);
+    for (var i = parts.length - 1; i >= 0; i--) {
+      var p = parts[i], u = (now - p.t) / p.dur;
+      if (u >= 1) { parts.splice(i, 1); continue; }
+      var x, y, al;
+      if (p.k === 's') {
+        var e = ease(u);
+        x = lerp(p.sx, p.ex, e); y = lerp(p.sy, p.ey, e) - Math.sin(Math.PI * u) * p.arc;
+        al = Math.sin(Math.PI * u);
+      } else {
+        x = p.x + p.vx * u; y = p.y + p.vy * u + 220 * u * u; al = 1 - u;
+      }
+      dctx.globalAlpha = clamp(al, 0, 1);
+      dctx.fillStyle = p.c;
+      dctx.beginPath(); dctx.arc(x, y, p.r, 0, 6.2832); dctx.fill();
+    }
+    dctx.globalAlpha = 1;
+  }
+
+  function startTransfer() {
+    if (st.state !== 'idle') return;
+    userTouched();
+    st.state = 'linking'; syncUI();
+    setStatus('Phones touching. Opening a direct link…');
+    animateV(100, reduce ? 1 : (100 - st.v) * 9 + 200, function () {
+      ringFx();
+      st.state = 'sending';
+      tr.start = performance.now();
+      tr.dur = 1400 + st.file.mb * 18;
+      scrA.dataset.state = 'sending'; scrB.dataset.state = 'recv';
+      recvName.textContent = st.file.name;
+      seam.classList.add('on');
+      setStatus('Connected. Sending ' + st.file.name + '…');
+      syncUI();
+    });
+  }
+
+  function setProgress(u) {
+    ringFg.style.strokeDashoffset = (264 * (1 - u)).toFixed(1);
+    ringTxt.textContent = Math.round(u * 100) + '%';
+    rTime.textContent = (u * tr.dur / 1000).toFixed(1) + ' s';
+    var sent = u * st.file.mb;
+    rSent.textContent = (sent < 10 ? sent.toFixed(1) : Math.round(sent)) + ' / ' + st.file.size;
+  }
+
+  function finishTransfer(now) {
+    st.state = 'done';
+    setProgress(1);
+    scrA.dataset.state = 'done'; scrB.dataset.state = 'done';
+    doneName.textContent = st.file.name;
+    seam.classList.remove('on');
+    if (!reduce) burst(now);
+    setStatus('Received ' + st.file.name + ' (' + st.file.size + ') in ' + (tr.dur / 1000).toFixed(1) + ' s. It never touched a server.');
+    syncUI();
+    resetBtn.focus({ preventScroll: true });
+  }
+
+  function resetDemo(cb) {
+    if (st.state !== 'done') return;
+    st.state = 'resetting';
+    scrA.dataset.state = 'idle'; scrB.dataset.state = 'idle';
+    ringFg.style.strokeDashoffset = 264; ringTxt.textContent = '0%';
+    rTime.textContent = '0.0 s'; rSent.textContent = '0 / ' + st.file.size;
+    syncUI();
+    animateV(0, reduce ? 1 : 700, function () {
+      st.state = 'idle'; setStatus(IDLE_MSG); syncUI();
+      if (cb) cb(); else goBtn.focus({ preventScroll: true });
+    });
+  }
+
+  function demoFrame(t, now) {
+    if (vAnim) {
+      var u = clamp((now - vAnim.t0) / vAnim.ms, 0, 1);
+      setV(lerp(vAnim.from, vAnim.to, ease(u)));
+      if (u >= 1) { var cb = vAnim.cb; vAnim = null; if (cb) cb(); }
+    }
+    applyPhones();
+
+    dcx = lerp(dcx, dtx, 0.08); dcy = lerp(dcy, dty, 0.08);
+    var sway = reduce ? 0 : Math.sin(t / 2600) * 3;
+    demoRig.style.transform = 'rotateX(' + (8 - dcy * 8).toFixed(2) + 'deg) rotateY(' + (dcx * 12 + sway).toFixed(2) + 'deg)';
+
+    if (st.state === 'sending') {
+      var pu = clamp((now - tr.start) / tr.dur, 0, 1);
+      setProgress(pu);
+      if (!reduce && demoOn) {
+        spawnAcc += 0.07 * 16;
+        while (spawnAcc >= 1) { spawnStream(now); spawnAcc -= 1; }
+      }
+      if (pu >= 1) finishTransfer(now);
+    }
+    if (demoOn) drawParts(now);
+  }
+
+  /* Controls */
+  slider.addEventListener('input', function () {
+    userTouched();
+    if (st.state !== 'idle') return;
+    vAnim = null; setV(+slider.value);
+    if (st.v >= 97) startTransfer();
+  });
+  function springBack() {
+    if (st.state === 'idle' && st.v > 0 && st.v < 97) animateV(0, 450);
+  }
+  slider.addEventListener('pointerup', springBack);
+  slider.addEventListener('pointercancel', springBack);
+  goBtn.addEventListener('click', startTransfer);
+  resetBtn.addEventListener('click', function () { resetDemo(); });
+
+  var drag = null;
+  stage.addEventListener('pointerdown', function (e) {
+    if (st.state !== 'idle') return;
+    var r = stage.getBoundingClientRect();
+    drag = { x: e.clientX, v: st.v, side: (e.clientX - r.left) < r.width / 2 ? 1 : -1 };
+    try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+    stage.classList.add('grabbing');
+    userTouched(); vAnim = null;
+  });
+  stage.addEventListener('pointermove', function (e) {
+    var r = stage.getBoundingClientRect();
+    dtx = clamp(((e.clientX - r.left) / r.width - 0.5) * 2, -1, 1);
+    dty = clamp(((e.clientY - r.top) / r.height - 0.5) * 2, -1, 1);
+    if (drag && st.state === 'idle') {
+      var span = Math.max(90, maxGap + 50);
+      setV(clamp(drag.v + ((e.clientX - drag.x) * drag.side) / span * 100, 0, 100));
+      if (st.v >= 97) { drag = null; stage.classList.remove('grabbing'); startTransfer(); }
+    }
+  });
+  function endDrag() { if (drag) { drag = null; stage.classList.remove('grabbing'); springBack(); } }
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+  stage.addEventListener('pointerleave', function () { dtx = 0; dty = 0; });
+
+  /* Visibility + one-time nudge hint */
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { heroOn = es[0].isIntersecting; }, { threshold: 0 }).observe(heroEl);
+    var nudged = false;
+    new IntersectionObserver(function (es) {
+      demoOn = es[0].isIntersecting;
+      if (demoOn && !nudged && !touched && !reduce && st.state === 'idle') {
+        nudged = true;
+        setTimeout(function () {
+          if (touched || st.state !== 'idle') return;
+          animateV(24, 700, function () { if (!touched && st.state === 'idle') animateV(0, 700); });
+        }, 500);
+      }
+    }, { threshold: 0.4 }).observe(stage);
+  } else { demoOn = true; }
+
+  /* ---------- Tilt + spotlight cards ---------- */
+  if (canHover && !reduce) {
+    $$('[data-tilt]').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        el.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        el.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+        el.style.transform = 'perspective(900px) rotateX(' + ((0.5 - py) * 10).toFixed(2) + 'deg) rotateY(' + ((px - 0.5) * 12).toFixed(2) + 'deg)';
+      });
+      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+    });
+    /* Magnetic download buttons */
+    $$('.magnet').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * 0.12).toFixed(1) + 'px,' + ((e.clientY - r.top - r.height / 2) * 0.2).toFixed(1) + 'px)';
+      });
+      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+    });
+  }
+
+  /* ---------- Live APK size check ---------- */
+  function fmtBytes(n) { return n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.round(n / 1024) + ' KB'; }
+  if (window.fetch && location.protocol.indexOf('http') === 0) {
+    fetch('app-debug.apk', { method: 'HEAD', cache: 'no-store' }).then(function (r) {
+      if (!r.ok) { $('#dlWarn').hidden = false; console.warn('ANRO-BEAM: app-debug.apk returned HTTP ' + r.status + '. Upload the file next to index.html.'); return; }
+      var len = parseInt(r.headers.get('content-length') || '0', 10);
+      if (len) $('#apkSize').textContent = fmtBytes(len);
+      if (len && len < 50000) { $('#dlWarn').hidden = false; console.warn('ANRO-BEAM: app-debug.apk is only ' + len + ' bytes. It looks empty or is not the real APK.'); }
+    }).catch(function () {});
+  }
+
+  /* ---------- Main loop ---------- */
+  syncUI();
+  setV(0);
+  function frame(t) {
+    var now = performance.now();
+    if (heroOn) heroFrame(t);
+    demoFrame(t, now);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
