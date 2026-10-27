@@ -314,10 +314,10 @@
         </h1>
         <p class="lede">ANRO-BEAM moves files the way Android Beam once did. Hold two phones back to back and the transfer starts. No sign-up, no upload, no waiting on a server that isn't yours.</p>
         <div class="cta-row">
-          <a class="btn btn-spark magnet" href="app-debug.apk" download="app-debug.apk"><svg class="i"><use href="#i-download"/></svg>Download for Android</a>
+          <a class="btn btn-spark magnet" href="anrobeam.apk" download="anrobeam.apk"><svg class="i"><use href="#i-download"/></svg>Download for Android</a>
           <a class="btn btn-ghost" href="#try">Try the 3D demo</a>
         </div>
-        <p class="fine">Free, no account. File: <code>app-debug.apk</code></p>
+        <p class="fine">Free, no account. File: <code>anrobeam.apk</code></p>
       </div>
 
       <div class="hero-scene" id="heroScene" aria-hidden="true">
@@ -492,12 +492,12 @@
           <h2>Install ANRO-BEAM</h2>
           <p class="section-intro">Download the APK directly. No store account needed. Android will ask you to confirm installing from outside the Play Store the first time.</p>
           <dl class="spec">
-            <dt>File</dt><dd>app-debug.apk</dd>
+            <dt>File</dt><dd>anrobeam.apk</dd>
             <dt>Size</dt><dd id="apkSize">Android package</dd>
             <dt>Platform</dt><dd>Android</dd>
             <dt>Build</dt><dd>Debug</dd>
           </dl>
-          <a class="btn btn-spark btn-lg magnet" id="dlBtn" href="app-debug.apk" download="app-debug.apk"><svg class="i"><use href="#i-download"/></svg>Download APK</a>
+          <a class="btn btn-spark btn-lg magnet" id="dlBtn" href="anrobeam.apk" download="anrobeam.apk"><svg class="i"><use href="#i-download"/></svg>Download APK</a>
           <p class="warn" id="dlWarn" hidden>This download isn't available right now. Please try again later.</p>
         </div>
         <div class="dl-help">
@@ -508,7 +508,7 @@
           </details>
           <details>
             <summary>Open the downloaded file</summary>
-            <p>Go back and open app-debug.apk from your browser's downloads or the Files app, then tap Install.</p>
+            <p>Go back and open anrobeam.apk from your browser's downloads or the Files app, then tap Install.</p>
           </details>
           <details>
             <summary>If Play Protect shows a warning</summary>
@@ -895,11 +895,11 @@
   /* ---------- Live APK size check ---------- */
   function fmtBytes(n) { return n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.round(n / 1024) + ' KB'; }
   if (window.fetch && location.protocol.indexOf('http') === 0) {
-    fetch('app-debug.apk', { method: 'HEAD', cache: 'no-store' }).then(function (r) {
-      if (!r.ok) { $('#dlWarn').hidden = false; console.warn('ANRO-BEAM: app-debug.apk returned HTTP ' + r.status + '. Upload the file next to index.html.'); return; }
+    fetch('anrobeam.apk', { method: 'HEAD', cache: 'no-store' }).then(function (r) {
+      if (!r.ok) { $('#dlWarn').hidden = false; console.warn('ANRO-BEAM: anrobeam.apk returned HTTP ' + r.status + '. Upload the file next to index.html.'); return; }
       var len = parseInt(r.headers.get('content-length') || '0', 10);
       if (len) $('#apkSize').textContent = fmtBytes(len);
-      if (len && len < 50000) { $('#dlWarn').hidden = false; console.warn('ANRO-BEAM: app-debug.apk is only ' + len + ' bytes. It looks empty or is not the real APK.'); }
+      if (len && len < 50000) { $('#dlWarn').hidden = false; console.warn('ANRO-BEAM: anrobeam.apk is only ' + len + ' bytes. It looks empty or is not the real APK.'); }
     }).catch(function () {});
   }
 
