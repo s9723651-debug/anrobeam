@@ -53,6 +53,28 @@ New to open source? Same journey, no gatekeeping. Advice and contributions are w
 
 These describe the project's goals and intended design; support depends on the app build, device hardware, Android version, and permissions.
 
+## Built with & tested on 🛠️
+
+### Development setup
+
+- **Development laptop:** HP EliteBook 840 G6 running Windows 11 Pro.
+- **Tools used:** Antigravity and ChatGPT Desktop Work to help inspect the project, review logs, edit code, and debug issues.
+- **Debugging approach:** Android Debug Bridge (ADB) was used to connect test phones, reproduce problems, inspect logs, and verify fixes on real hardware.
+- **Budget:** built independently with a zero-budget setup — no paid ANRO backend or server.
+
+AI tools helped with development, but this is still an independent project. The tools don't replace real-device testing, and not every feature or Android version has been verified.
+
+### Real-device testing
+
+Hands-on testing and debugging have included:
+
+- **Samsung Galaxy A16 4G** — the main modern test device.
+- **Samsung Galaxy F23 5G** — used as an additional Android test device during development.
+
+The phones were connected through ADB during debugging, and transfer issues were reproduced, investigated through logs, and retested after fixes.
+
+This is **not** a claim that ANRO-BEAM has been tested on every Samsung model or every Android brand. Pixel, Xiaomi, OnePlus, Motorola, and other devices still need their own compatibility testing. The exact result can vary by Android version, hardware, permissions, and app build.
+
 ## Compatibility
 
 ANRO-BEAM is intended for **compatible Android phones**. NFC hardware is required for the NFC-based pairing concept, and device support may vary.
