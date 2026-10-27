@@ -15,6 +15,18 @@ ANRO-BEAM is an Android-focused, phone-to-phone file-sharing project inspired by
 
 Only install APKs you trust. Android may ask you to approve installation from your browser or file manager.
 
+## A little honesty
+
+### Why isn't ANRO-BEAM on the Google Play Store?
+
+The Play Console developer account has a **US$25 one-time registration fee**. I haven't published ANRO-BEAM on the Play Store because I can't afford that fee right now. For now, the APK is shared directly from this project's website.
+
+### Why isn't it open source yet?
+
+Honestly, I haven't figured out the full process of preparing and publishing the project as open source yet. I want to learn how to do it properly rather than pretend it's already done. Until a license is added and the project is clearly published under it, please don't assume the code is open source or freely reusable.
+
+**Want to help?** If you know how to help me publish ANRO-BEAM as an open-source project, email me at [s9723651@gmail.com](mailto:s9723651@gmail.com). Advice and guidance are welcome.
+
 ## Project goals
 
 - **Android-first:** designed for Android devices.
