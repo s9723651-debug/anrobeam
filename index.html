@@ -34,6 +34,17 @@
     --body: "Public Sans", "Segoe UI", system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
+  /* Android-only compatibility gate */
+  body.non-android { min-height: 100vh; background: var(--ink); }
+  body.non-android > :not(#androidGate) { display: none !important; }
+  #androidGate { display: none; min-height: 100vh; padding: 1.5rem; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 15%, #24466b 0, var(--ink) 58%); color: #fff; font-family: var(--body); }
+  body.non-android #androidGate { display: flex; }
+  .gate-card { width: min(100%, 520px); padding: clamp(1.5rem, 6vw, 3rem); border: 1px solid rgba(255,255,255,.14); border-radius: 28px; background: rgba(255,255,255,.07); box-shadow: 0 24px 80px rgba(0,0,0,.25); text-align: center; }
+  .gate-mark { width: 72px; height: 72px; display: grid; place-items: center; margin: 0 auto 1.25rem; border-radius: 24px; background: var(--spark); color: var(--ink); font: 800 2rem var(--display); }
+  .gate-card h1 { margin: 0 0 1rem; font: 800 clamp(2rem, 8vw, 3rem)/1.05 var(--display); letter-spacing: -.03em; }
+  .gate-card p { color: #c1cfdd; margin: 0 auto 1.5rem; }
+  .gate-card .btn { margin-top: .25rem; }
+
   [hidden] { display: none !important; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 1.0625rem; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
@@ -269,6 +280,22 @@
 </style>
 </head>
 <body>
+<script>
+  (function () {
+    var ua = navigator.userAgent || '';
+    var isAndroid = /Android/i.test(ua);
+    if (!isAndroid) document.documentElement.classList.add('non-android');
+  })();
+</script>
+<div id="androidGate" role="main" aria-labelledby="androidGateTitle">
+  <div class="gate-card">
+    <div class="gate-mark" aria-hidden="true">A</div>
+    <h1 id="androidGateTitle">Not compatible :(</h1>
+    <p>This app is only compatible with Android. Looks like yours isn't one :(</p>
+    <p>Still want it? You can check out ANRO-BEAM on GitHub.</p>
+    <a class="btn btn-spark btn-lg" href="https://github.com/s9723651-debug/anrobeam" target="_blank" rel="noopener noreferrer">Go to GitHub</a>
+  </div>
+</div>
 
 <!-- Icon sprite -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
