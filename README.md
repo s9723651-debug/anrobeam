@@ -75,6 +75,12 @@ The phones were connected through ADB during debugging, and transfer issues were
 
 This is **not** a claim that ANRO-BEAM has been tested on every Samsung model or every Android brand. Pixel, Xiaomi, OnePlus, Motorola, and other devices still need their own compatibility testing. The exact result can vary by Android version, hardware, permissions, and app build.
 
+### A note about Samsung testing
+
+Here's the honest truth: **ANRO-BEAM may work more reliably on Samsung phones right now simply because that's what I can test on most.** It's not intentional favoritism. There are five phones available at home for testing, and all five are Samsung. I don't have other brands available to borrow and test on, so I can't honestly promise the same behavior on Pixel, Xiaomi, OnePlus, Motorola, or other Android devices yet.
+
+The project is intended for compatible Android phones generally, not Samsung phones only. But the testing coverage is currently Samsung-heavy, so other brands need real-world testing before I can make stronger compatibility claims. If you test on a non-Samsung phone, feedback about the model, Android version, app version, and what worked or failed would be genuinely useful.
+
 ## Compatibility
 
 ANRO-BEAM is intended for **compatible Android phones**. NFC hardware is required for the NFC-based pairing concept, and device support may vary.
