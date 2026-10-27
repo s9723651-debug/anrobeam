@@ -112,8 +112,12 @@
   .ph-front, .ph-back { position: absolute; inset: 0; border-radius: calc(var(--pw) * 0.17); background: #0b1828; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
   .ph-front { padding: calc(var(--pw) * 0.045); transform: translateZ(calc(var(--pw) * 0.05)); }
   .ph-back { transform: translateZ(calc(var(--pw) * -0.05)) rotateY(180deg); background: linear-gradient(160deg, #1b3a5c, #0b1828 70%); }
-  .ph-cam { position: absolute; top: 1.6em; left: 1.6em; width: 4.2em; height: 4.2em; border-radius: 1.2em; background: #060f1a; border: 0.2em solid #2a4a6d; }
-  .ph-cam::after { content: ""; position: absolute; inset: 1em; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #4b7bd1, #0b1828 70%); }
+  /* Android-inspired rear camera: separate vertical lenses, not an iPhone-style square island */
+  .ph-cam { position: absolute; top: 1.55em; left: 1.55em; width: 1.25em; height: 5.25em; border-radius: 0; background: transparent; border: 0; }
+  .ph-cam::before, .ph-cam::after { content: ""; position: absolute; left: 0; width: 1.05em; height: 1.05em; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #4b7bd1 0 12%, #172a40 34%, #050b13 70%); border: 0.12em solid #30445c; box-shadow: 0 0 0 0.08em rgba(5, 11, 19, 0.3); }
+  .ph-cam::before { top: 0; }
+  .ph-cam::after { top: 1.45em; }
+  .ph-back::after { content: ""; position: absolute; top: 4.45em; left: 1.67em; width: 0.48em; height: 0.48em; border-radius: 50%; background: #b9d4f7; box-shadow: 0 0 0 0.12em #24384f; }
   .ph-screen { position: relative; width: 100%; height: 100%; border-radius: calc(var(--pw) * 0.135); background: #f7fafc; overflow: hidden; color: var(--ink); font-family: var(--body); }
   .ph-notch { position: absolute; top: 0.72em; left: 50%; width: 1.05em; height: 1.05em; margin-left: -0.525em; border-radius: 50%; background: #07111e; border: 0.12em solid #253b52; box-shadow: 0 0 0 0.08em rgba(7, 17, 30, 0.2); z-index: 4; }
   .ph-glare { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 5; background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.4) 46%, transparent 60%); background-size: 260% 100%; background-position: var(--gx, 50%) 0; }
