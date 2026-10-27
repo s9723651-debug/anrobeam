@@ -4,7 +4,7 @@
 
 Yo! 👋 ANRO-BEAM is an Android-focused, phone-to-phone file-sharing project inspired by the simplicity of Android Beam. The dream is simple: bring two compatible phones together to start a transfer, without uploading your files to a cloud service or routing them through an ANRO server.
 
-This is an indie project, made by a developer who likes useful, slightly weird, funny apps — and would rather talk to you like a human than sound like a corporate press release.
+This is an indie project, made by a developer who likes useful, slightly weird, funny apps — and would rather talk to you like a human than sound like a corporate press release. It's also being built on a **zero-budget setup**, so there's no ANRO-operated backend or server to pay for. That budget limit shapes the architecture; it isn't a claim that servers are universally free or that a backend could never be added in the future.
 
 > **Current build:** `v0.1.8.8`  
 > **Status:** Indie project in development. Compatibility and transfer behavior can vary by device and build.
@@ -14,6 +14,7 @@ This is an indie project, made by a developer who likes useful, slightly weird, 
 - **0 ads. For life.** No banners, no pop-ups, no “watch an ad to continue.” That's the promise.
 - **No corporate nonsense.** No pretending we're a giant company. We're here to build useful stuff and be honest about it.
 - **Talk to the dev.** Got a bug, idea, question, or a very confusing error message? Open an issue and talk like a human. I prefer informal, direct conversations over corporate-speak.
+- **No backend to pay for.** There's currently no ANRO-operated backend or server. The project is being built on a zero budget, and direct device-to-device sharing helps avoid server costs.
 - **Your files aren't our business.** ANRO-BEAM is designed around direct device-to-device sharing, not an ANRO-operated cloud upload.
 - **Be honest, even when it's awkward.** If something is broken, experimental, unsupported, or just a bad idea, we'll say so.
 
@@ -44,6 +45,7 @@ New to open source? Same journey, no gatekeeping. Advice and contributions are w
 - **Android-first:** built for compatible Android devices.
 - **Tap to pair:** NFC is intended to initiate the connection between compatible phones.
 - **Direct transfer:** Wi-Fi Direct is the intended path for transferring files after pairing.
+- **No ANRO backend/server:** there isn't an ANRO-operated backend in this project right now; the developer doesn't have the budget to run one.
 - **No cloud relay:** files are intended to move directly between devices, not through an ANRO-operated file server.
 - **No account required:** sharing should stay simple.
 - **No ads. Ever.** The ANRO promise.
@@ -78,7 +80,7 @@ Found a bug? Have an idea? Think something is confusing? Open an [Issue](https:/
 
 ## Privacy direction
 
-The project's design goal is direct device-to-device sharing without an ANRO cloud upload or account. This README is not a security audit: review the source and test the exact build before using it with private or sensitive files.
+The project currently has no ANRO-operated backend or server; the developer is building on a zero budget. Its design goal is direct device-to-device sharing without an ANRO cloud upload or account. “No backend” doesn't automatically prove an app is secure, so this README is not a security audit: review the source and test the exact build before using it with private or sensitive files.
 
 ## License
 
