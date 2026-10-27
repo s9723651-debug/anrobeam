@@ -69,7 +69,7 @@ AI tools helped with development, but this is still an independent project. The 
 Hands-on testing and debugging have included:
 
 - **Samsung Galaxy A16 4G** — the main modern test device.
-- **Samsung Galaxy F23 5G** — used as an additional Android test device during development.
+- **Samsung Galaxy Note10 Lite** — used as the additional Android test device during development.
 
 The phones were connected through ADB during debugging, and transfer issues were reproduced, investigated through logs, and retested after fixes.
 
