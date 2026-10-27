@@ -21,11 +21,11 @@ Only install APKs you trust. Android may ask you to approve installation from yo
 
 The Play Console developer account has a **US$25 one-time registration fee**. I haven't published ANRO-BEAM on the Play Store because I can't afford that fee right now. For now, the APK is shared directly from this project's website.
 
-### Why isn't it open source yet?
+### Is ANRO-BEAM open source?
 
-Honestly, I haven't figured out the full process of preparing and publishing the project as open source yet. I want to learn how to do it properly rather than pretend it's already done. Until a license is added and the project is clearly published under it, please don't assume the code is open source or freely reusable.
+Yes — ANRO-BEAM is now released under the **MIT License**. See the [LICENSE](LICENSE) file for the full terms. You can use, modify, and redistribute licensed project code under those terms, including in commercial projects, as long as you preserve the required copyright and license notice.
 
-**Want to help?** If you know how to help me publish ANRO-BEAM as an open-source project, email me at [s9723651@gmail.com](mailto:s9723651@gmail.com). Advice and guidance are welcome.
+If you're new to open source, that's okay — this is part of learning in public. Advice and contributions are welcome through the repository's [Issues](https://github.com/s9723651-debug/anrobeam/issues) page.
 
 ## Project goals
 
@@ -69,4 +69,4 @@ The project's design goal is direct device-to-device sharing without an ANRO clo
 
 ## License
 
-A license file has not yet been added to this repository. Until a license is published, do not assume the source is available for unrestricted reuse or redistribution.
+ANRO-BEAM is licensed under the [MIT License](LICENSE). The license applies to the project code covered by it. Third-party assets, dependencies, or other separately credited materials may have their own terms.
