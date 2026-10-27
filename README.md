@@ -2,10 +2,22 @@
 
 **Phone to phone. Nothing in between.**
 
-ANRO-BEAM is an Android-focused, phone-to-phone file-sharing project inspired by the simplicity of Android Beam. The goal is to make sharing feel effortless: bring two compatible phones together to initiate a transfer, without uploading files to a cloud service or routing them through an ANRO server.
+Yo! 👋 ANRO-BEAM is an Android-focused, phone-to-phone file-sharing project inspired by the simplicity of Android Beam. The dream is simple: bring two compatible phones together to start a transfer, without uploading your files to a cloud service or routing them through an ANRO server.
+
+This is an indie project, made by a developer who likes useful, slightly weird, funny apps — and would rather talk to you like a human than sound like a corporate press release.
 
 > **Current build:** `v0.1.8.8`  
 > **Status:** Indie project in development. Compatibility and transfer behavior can vary by device and build.
+
+## The ANRO promise 🤝
+
+- **0 ads. For life.** No banners, no pop-ups, no “watch an ad to continue.” That's the promise.
+- **No corporate nonsense.** No pretending we're a giant company. We're here to build useful stuff and be honest about it.
+- **Talk to the dev.** Got a bug, idea, question, or a very confusing error message? Open an issue and talk like a human. I prefer informal, direct conversations over corporate-speak.
+- **Your files aren't our business.** ANRO-BEAM is designed around direct device-to-device sharing, not an ANRO-operated cloud upload.
+- **Be honest, even when it's awkward.** If something is broken, experimental, unsupported, or just a bad idea, we'll say so.
+
+These are project commitments and design goals, not a claim that every feature is perfect today. No ads means no ads; it doesn't mean every bug has magically vanished. 😅
 
 ## Links
 
@@ -23,20 +35,21 @@ The Play Console developer account has a **US$25 one-time registration fee**. I 
 
 ### Is ANRO-BEAM open source?
 
-Yes — ANRO-BEAM is now released under the **MIT License**. See the [LICENSE](LICENSE) file for the full terms. You can use, modify, and redistribute licensed project code under those terms, including in commercial projects, as long as you preserve the required copyright and license notice.
+Yep — ANRO-BEAM is released under the **MIT License**. See [LICENSE](LICENSE) for the full terms. You can use, modify, and redistribute licensed project code under those terms, including in commercial projects, as long as you preserve the required copyright and license notice.
 
-If you're new to open source, that's okay — this is part of learning in public. Advice and contributions are welcome through the repository's [Issues](https://github.com/s9723651-debug/anrobeam/issues) page.
+New to open source? Same journey, no gatekeeping. Advice and contributions are welcome through the repository's [Issues](https://github.com/s9723651-debug/anrobeam/issues) page.
 
 ## Project goals
 
-- **Android-first:** designed for Android devices.
+- **Android-first:** built for compatible Android devices.
 - **Tap to pair:** NFC is intended to initiate the connection between compatible phones.
 - **Direct transfer:** Wi-Fi Direct is the intended path for transferring files after pairing.
 - **No cloud relay:** files are intended to move directly between devices, not through an ANRO-operated file server.
-- **No account required:** the goal is to keep sharing simple.
-- **Open development:** built as an independent project.
+- **No account required:** sharing should stay simple.
+- **No ads. Ever.** The ANRO promise.
+- **Open development:** an independent project built in public, not a corporate product team.
 
-These describe the project's goals and intended design; support depends on the particular app build, device hardware, Android version, and permissions.
+These describe the project's goals and intended design; support depends on the app build, device hardware, Android version, and permissions.
 
 ## Compatibility
 
@@ -46,7 +59,7 @@ The website includes a browser compatibility screen for non-Android user agents.
 
 ## Try the website demo
 
-Open the [ANRO-BEAM website](https://s9723651-debug.github.io/anrobeam/) and select **Try the 3D demo**. The demo illustrates the intended phone-to-phone flow; it is a simulation and does not transfer a real file.
+Open the [ANRO-BEAM website](https://s9723651-debug.github.io/anrobeam/) and select **Try the 3D demo**. The demo illustrates the intended phone-to-phone flow; it's a simulation and does not transfer a real file. No fake “live demo” claims here. 🙂
 
 ## Install and test
 
@@ -55,13 +68,13 @@ Open the [ANRO-BEAM website](https://s9723651-debug.github.io/anrobeam/) and sel
 3. Grant only the permissions the app needs for its features.
 4. Test with two compatible devices and non-sensitive sample files first.
 
-Back up important files before testing development builds. If a transfer fails, note both devices, Android versions, the app build, and any error message.
+Back up important files before testing development builds. If a transfer fails, note both devices, Android versions, the app build, and any error message. That info helps way more than “it doesn't work” (though we've all been there).
 
 ## Development
 
-ANRO-BEAM is an independent project. Its interface, website demo, and Android app may evolve between builds. Features shown in the website demo should not be treated as proof that the same behavior is implemented or supported on every device.
+ANRO-BEAM is an independent project. The interface, website demo, and Android app may evolve between builds. Features shown in the website demo should not be treated as proof that the same behavior is implemented or supported on every device.
 
-Bug reports and suggestions are welcome through the repository's [Issues](https://github.com/s9723651-debug/anrobeam/issues) page.
+Found a bug? Have an idea? Think something is confusing? Open an [Issue](https://github.com/s9723651-debug/anrobeam/issues). You don't need fancy technical wording — explain what happened in your own words. Direct feedback from real users is the point.
 
 ## Privacy direction
 
@@ -70,3 +83,7 @@ The project's design goal is direct device-to-device sharing without an ANRO clo
 ## License
 
 ANRO-BEAM is licensed under the [MIT License](LICENSE). The license applies to the project code covered by it. Third-party assets, dependencies, or other separately credited materials may have their own terms.
+
+---
+
+**Made independently, with zero ads promised for life, and absolutely no corporate voice required.** 🤖
