@@ -104,7 +104,13 @@ Back up important files before testing development builds. If a transfer fails, 
 
 ANRO-BEAM is an independent project. The interface, website demo, and Android app may evolve between builds. Features shown in the website demo should not be treated as proof that the same behavior is implemented or supported on every device.
 
-Found a bug? Have an idea? Think something is confusing? Open an [Issue](https://github.com/s9723651-debug/anrobeam/issues). You don't need fancy technical wording — explain what happened in your own words. Direct feedback from real users is the point.
+Found a bug? Think something is confusing? Open an [Issue](https://github.com/s9723651-debug/anrobeam/issues). You don't need fancy technical wording — explain what happened in your own words. Direct feedback from real users is the point.
+
+### Your idea. Your name. 🤝
+
+Have a brilliant app idea? A feature you'd love to see in ANRO-BEAM? Anything that could help make ANRO better? Email **[s9723651@gmail.com](mailto:s9723651@gmail.com)** and tell me about it.
+
+If your suggestion inspires the next ANRO app, feature, or patch, **your given name will be credited in it**. Got an idea? Send it in — let's build something useful together.
 
 ## Privacy direction
 
