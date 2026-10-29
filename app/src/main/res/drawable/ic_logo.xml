@@ -1,0 +1,58 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <!-- Background glass-like circle -->
+    <path
+        android:fillColor="#1AFFFFFF"
+        android:strokeColor="#33FFFFFF"
+        android:strokeWidth="1"
+        android:pathData="M 50,5 A 45,45 0 1,0 50,95 A 45,45 0 1,0 50,5 Z" />
+
+    <!-- Outer Android Green glow outline -->
+    <path
+        android:strokeColor="#3DDC84"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M 50,10 A 40,40 0 1,0 50,90 A 40,40 0 1,0 50,10 Z" />
+
+    <!-- Android Head (semi-circle dome) -->
+    <!-- Center of head at (50, 48), radius 18 -->
+    <path
+        android:fillColor="#3DDC84"
+        android:pathData="M 32,48 A 18,18 0 0,1 68,48 Z" />
+
+    <!-- Eyes (white dots) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M 43,40 A 1.8,1.8 0 1,1 43,39.9 Z M 57,40 A 1.8,1.8 0 1,1 57,39.9 Z" />
+
+    <!-- Antennas (lines from head pointing out) -->
+    <path
+        android:strokeColor="#3DDC84"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M 40,32 L 34,22 M 60,32 L 66,22" />
+
+    <!-- Beam/Signal Waves radiating downwards -->
+    <path
+        android:strokeColor="#3DDC84"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M 30,58 A 22,22 0 0,0 70,58" />
+
+    <path
+        android:strokeColor="#3DDC84"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M 24,66 A 30,30 0 0,0 76,66" />
+
+    <path
+        android:strokeColor="#3DDC84"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M 18,74 A 38,38 0 0,0 82,74" />
+
+</vector>

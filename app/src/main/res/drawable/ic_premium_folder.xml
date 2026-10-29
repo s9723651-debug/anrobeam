@@ -1,0 +1,15 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <!-- Back Folder Flap -->
+    <path
+        android:fillColor="#152B75"
+        android:pathData="M 12 24 C 12 20, 16 16, 20 16 L 36 16 C 40 16, 42 20, 44 24 L 84 24 C 88 24, 92 28, 92 32 L 92 76 C 92 80, 88 84, 84 84 L 12 84 Z" />
+    
+    <!-- Front Folder Flap -->
+    <path
+        android:fillColor="#1C41AB"
+        android:pathData="M 8 36 C 8 32, 12 28, 16 28 L 88 28 C 92 28, 96 32, 96 36 L 96 76 C 96 80, 92 84, 88 84 L 8 84 Z" />
+</vector>

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">AnroBeam</string>
+    <string name="app_title">anro\nBEAM</string>
+    <string name="app_subtitle">Instant offline file sharing powered by Wi-Fi Direct</string>
+    <string name="app_version">v0.1.8.9</string>
+    <string name="transfer_history_title">Transfer History</string>
+    <string name="clear_history">Clear History</string>
+    <string name="no_history">No history found</string>
+    <string name="incoming_transfer_notification_channel">Incoming File Transfer Channel</string>
+    <string name="active_transfer_notification_channel">Active File Transfer Channel</string>
+    <string name="notification_incoming_title">Incoming Transfer</string>
+    <string name="notification_incoming_desc">Incoming file transfer from %s</string>
+    <string name="select_file">Choose Files</string>
+    <string name="no_file_selected">No file selected. Tap to select up to 10 files (max 50 GB).</string>
+    <string name="incoming_request">Incoming File Transfer</string>
+    <string name="allow">Accept</string>
+    <string name="deny">Decline</string>
+    <string name="settings_title">Settings</string>
+    <string name="transport_label">Transport</string>
+    <string name="transport_auto">Wi-Fi Direct (always)</string>
+</resources>

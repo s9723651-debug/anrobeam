@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand colors -->
+    <color name="brand_primary">#3DDC84</color>
+    <color name="brand_primary_dark">#2cbd6c</color>
+    <color name="brand_primary_light">#E8FDF0</color>
+    
+    <!-- Raw palette colors -->
+    <color name="bg_light">#F5F5F7</color>
+    <color name="text_light">#000000</color>
+    <color name="text_secondary_light">#6E6E73</color>
+    <color name="glass_bg_light">#B3FFFFFF</color> <!-- 70% white for frosted glass look -->
+    <color name="glass_stroke_light">#1F000000</color>
+    
+    <color name="bg_dark">#000000</color>
+    <color name="text_dark">#FFFFFF</color>
+    <color name="text_secondary_dark">#86868B</color>
+    <color name="glass_bg_dark">#1AFFFFFF</color> <!-- Premium Glassmorphic transparency -->
+    <color name="glass_stroke_dark">#33FFFFFF</color>
+
+    <!-- Semantic resources (Dark Mode default for space theme) -->
+    <color name="app_background">@color/bg_dark</color>
+    <color name="app_text">@color/text_dark</color>
+    <color name="app_text_secondary">@color/text_secondary_dark</color>
+    <color name="glass_background_color">@color/glass_bg_dark</color>
+    <color name="glass_stroke_color">@color/glass_stroke_dark</color>
+
+    <!-- Fallbacks -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    
+    <!-- Legacy compatibility mappings -->
+    <color name="brand_glass">@color/glass_background_color</color>
+    <color name="brand_glass_stroke">@color/glass_stroke_color</color>
+    <color name="brand_text_primary">@color/app_text</color>
+    <color name="brand_text_secondary">@color/app_text_secondary</color>
+    <color name="brand_background">@color/app_background</color>
+    <color name="brand_secondary">@color/glass_background_color</color>
+    <color name="brand_on_secondary">@color/app_text</color>
+</resources>
+
