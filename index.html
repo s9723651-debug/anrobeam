@@ -34,16 +34,10 @@
     --body: "Public Sans", "Segoe UI", system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
-  /* Android-only compatibility gate */
-  html.non-android body { min-height: 100vh; background: var(--ink); }
-  html.non-android body > :not(#androidGate) { display: none !important; }
-  #androidGate { display: none; min-height: 100vh; padding: 1.5rem; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 15%, #24466b 0, var(--ink) 58%); color: #fff; font-family: var(--body); }
-  html.non-android #androidGate { display: flex; }
-  .gate-card { width: min(100%, 520px); padding: clamp(1.5rem, 6vw, 3rem); border: 1px solid rgba(255,255,255,.14); border-radius: 28px; background: rgba(255,255,255,.07); box-shadow: 0 24px 80px rgba(0,0,0,.25); text-align: center; }
-  .gate-mark { width: 72px; height: 72px; display: grid; place-items: center; margin: 0 auto 1.25rem; border-radius: 24px; background: var(--spark); color: var(--ink); font: 800 2rem var(--display); }
-  .gate-card h1 { margin: 0 0 1rem; font: 800 clamp(2rem, 8vw, 3rem)/1.05 var(--display); letter-spacing: -.03em; }
-  .gate-card p { color: #c1cfdd; margin: 0 auto 1.5rem; }
-  .gate-card .btn { margin-top: .25rem; }
+  /* Keep the website cross-platform; restrict only the Android APK downloads. */
+  .platform-incompatible { display: none; cursor: default; }
+  html.non-android .android-download { display: none !important; }
+  html.non-android .platform-incompatible { display: inline-flex; }
 
   [hidden] { display: none !important; }
   html { scroll-behavior: smooth; }
@@ -291,16 +285,6 @@
     if (!isAndroid) document.documentElement.classList.add('non-android');
   })();
 </script>
-<div id="androidGate" role="main" aria-labelledby="androidGateTitle">
-  <div class="gate-card">
-    <div class="gate-mark" aria-hidden="true">A</div>
-    <h1 id="androidGateTitle">Not compatible :(</h1>
-    <p>This app is only compatible with Android. Looks like yours isn't one :(</p>
-    <p>Still want it? You can check out ANRO-BEAM on GitHub.</p>
-    <a class="btn btn-spark btn-lg" href="https://github.com/s9723651-debug/anrobeam" target="_blank" rel="noopener noreferrer">Go to GitHub</a>
-  </div>
-</div>
-
 <!-- Icon sprite -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
@@ -345,7 +329,8 @@
         </h1>
         <p class="lede">ANRO-BEAM moves files the way Android Beam once did. Hold two phones back to back and the transfer starts. No sign-up, no upload, no waiting on a server that isn't yours.</p>
         <div class="cta-row">
-          <a class="btn btn-spark magnet" href="anrobeam.apk" download="anrobeam.apk"><svg class="i"><use href="#i-download"/></svg>Download for Android</a>
+          <a class="btn btn-spark magnet android-download" href="anrobeam.apk" download="anrobeam.apk"><svg class="i"><use href="#i-download"/></svg>Download for Android</a>
+          <span class="btn btn-ghost platform-incompatible" aria-label="ANRO-BEAM is not compatible with this device">Not compatible with this device</span>
           <a class="btn btn-ghost" href="#try">Try the 3D demo</a>
         </div>
         <p class="fine">Free, no account. File: <code>anrobeam.apk</code></p>
@@ -528,7 +513,8 @@
             <dt>Platform</dt><dd>Android</dd>
             <dt>Build</dt><dd>Debug</dd>
           </dl>
-          <a class="btn btn-spark btn-lg magnet" id="dlBtn" href="anrobeam.apk" download="anrobeam.apk"><svg class="i"><use href="#i-download"/></svg>Download APK</a>
+          <a class="btn btn-spark btn-lg magnet android-download" id="dlBtn" href="anrobeam.apk" download="anrobeam.apk"><svg class="i"><use href="#i-download"/></svg>Download APK</a>
+          <span class="btn btn-line btn-lg platform-incompatible" aria-label="ANRO-BEAM is not compatible with this device">Not compatible with this device</span>
           <p class="warn" id="dlWarn" hidden>This download isn't available right now. Please try again later.</p>
         </div>
         <div class="dl-help">
